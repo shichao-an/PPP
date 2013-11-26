@@ -1,6 +1,6 @@
 import random
 from ppp.utils import db
-from .settings import LIST_LEN, RANDOM_START, RANDOM_END
+from .settings import LIST_LEN, RANDOM_START, RANDOM_END, DATA_FILENAME
 
 
 target_list = []
@@ -17,4 +17,4 @@ def make():
         t = [a, b, distance]
         target_list.append(t)
 
-    db.write_data('cpu_bound.txt', target_list)
+    db.write_data(DATA_FILENAME, target_list)
