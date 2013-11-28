@@ -2,9 +2,11 @@ import math
 import threading
 from ppp.utils import db
 from ppp.utils.decorators import timing
+from ppp.settings import OVERHEAD
 from .data.settings import DATA_FILENAME
 
-NUM_THREADS = 8
+
+NUM_THREADS = OVERHEAD.NUM_THREADS
 
 target_list = db.read_data(DATA_FILENAME)
 points = {}
@@ -16,7 +18,7 @@ min_distance = -1
 
 def worker(target_slice):
     global max_distance, min_distance
-    for row in target_list:
+    for row in target_slice:
         # row[0]: origin; row[1]: destination; row[2]: distance
         lock.acquire()
         if int(row[2]) > max_distance:

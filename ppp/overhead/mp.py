@@ -2,10 +2,11 @@ import math
 import multiprocessing
 from ppp.utils import db
 from ppp.utils.decorators import timing
+from ppp.settings import OVERHEAD
 from .data.settings import DATA_FILENAME
 
 
-NUM_PROCESSES = 8
+NUM_PROCESSES = OVERHEAD.NUM_PROCESSES
 
 _target_list = db.read_data(DATA_FILENAME)
 manager = multiprocessing.Manager()

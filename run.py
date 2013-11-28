@@ -7,9 +7,10 @@ def main():
     #cpu_bound.mt.main()
     #cpu_bound.mp.main()
     #cpu_bound.omp.main()
-    #overhead.serial.main()
+    overhead.serial.main()
     overhead.mt.main()
     overhead.mp.main()
+    overhead.omp.main()
 
 
 if __name__ == "__main__":

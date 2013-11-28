@@ -17,8 +17,7 @@ OMP_NUM_THREADS = CPU_BOUND.OMP_NUM_THREADS
 def proc():
 
     global target_list
-    cdef unsigned int n, num_threads, i, j
-
+    cdef int n, num_threads, i, j
     num_threads = OMP_NUM_THREADS
 
     # Convert `target_list` from list into NumPy array `ntg`
@@ -37,13 +36,6 @@ def proc():
 
     # Disable dynamic teams (default implicitly)
     #openmp.omp_set_dynamic(0)
-    cdef openmp.omp_lock_t mylock
-
-    openmp.omp_init_lock(&mylock) # initialize
-
-    openmp.omp_set_lock(&mylock) # acquire
-    #do some work
-    openmp.omp_unset_lock(&mylock) # release
 
     for i in prange(n, nogil=True, schedule="static", num_threads=num_threads):
         #num_threads = openmp.omp_get_thread_num()

@@ -4,19 +4,20 @@ from Cython.Build import cythonize
 import os
 
 os.environ['CC'] = 'gcc'
+os.environ['CXX'] = 'g++'
 
 extensions = [
-    Extension(
-        name="ppp.cpu_bound.omp",
-        sources=["ppp/cpu_bound/omp.pyx"],
-        extra_compile_args=['-fopenmp'],
-        extra_link_args=['-fopenmp']),
     #Extension(
-        #name="ppp.overhead.omp",
-        #sources=["ppp/overhead/omp.pyx"],
-        #language="c++",
+        #name="ppp.cpu_bound.omp",
+        #sources=["ppp/cpu_bound/omp.pyx"],
         #extra_compile_args=['-fopenmp'],
         #extra_link_args=['-fopenmp']),
+    Extension(
+        name="ppp.overhead.omp",
+        sources=["ppp/overhead/omp.pyx"],
+        language="c++",
+        extra_compile_args=['-fopenmp'],
+        extra_link_args=['-fopenmp']),
 ]
 
 setup(
