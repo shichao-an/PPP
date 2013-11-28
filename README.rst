@@ -11,20 +11,20 @@ CPU-bound and I/O-bound programs are parallelized using these methods to demonst
 
 Usage
 -----
-Build Cython extensions::
+1. Build Cython extensions::
 
   $ python setup.py build_ext
 
 
-Make data
+2. Make data
 
 
-Run the project::
+3. Run the project::
 
   $ python run.py
 
 
-Ensure correctness::
+4. Ensure correctness::
 
   $ ./correctness all
 
