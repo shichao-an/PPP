@@ -1,0 +1,76 @@
+#cython: boundscheck=False
+import numpy as np
+from cython.parallel import parallel, prange
+cimport openmp  # NOQA
+from libc.stdio cimport printf
+from ppp.utils import db
+from ppp.utils.decorators import timing
+from .data.settings import DATA_FILENAME
+
+
+target_list = []
+
+
+@timing
+def proc():
+
+    global target_list
+    cdef unsigned int n, num_threads, i, j
+    num_threads = 8
+
+    # Convert `target_list` from list into NumPy array `ntg`
+    ntg = np.array(target_list, dtype=np.int32)
+    n = len(target_list)
+
+    # Define memoryview `tg` on NumPy array `ntg`
+    cdef int [:, :] tg = ntg  # NOQA
+
+    # Define memoryview `remove_indexes` on NumPy array initialized with zeros
+    n_remove_indexes = np.zeros((n,), dtype=np.int32)
+    cdef int [:] remove_indexes = n_remove_indexes  # NOQA
+
+    # Enable dynamic teams
+    #openmp.omp_set_dynamic(1)
+
+    # Disable dynamic teams (default implicitly)
+    openmp.omp_set_dynamic(0)
+
+    for i in prange(n, nogil=True, schedule="static", num_threads=num_threads):
+        num_threads = openmp.omp_get_thread_num()
+        printf("Thread ID: %d\n", num_threads)
+        if remove_indexes[i] == 1:
+            continue
+
+        for j in xrange(i + 1, n):
+            # Record duplicates to be removed
+            if tg[i][0] == tg[j][0] and tg[i][1] == tg[j][1]:
+                #printf("%d\n", j)
+                remove_indexes[j] = 1
+
+            # Fix reverse distance
+            elif tg[i][0] == tg[j][1] and tg[i][1] == tg[j][0]:
+                tg[j][2] == tg[i][2]
+
+    # Reinitialize `target_list` and append non-duplicates from `tg`
+    target_list = []
+    for i in range(n):
+        if remove_indexes[i] == 0:
+            target_list.append(tg[i])
+
+
+def main():
+    global target_list
+    starget_list = db.read_data(DATA_FILENAME)
+
+    # Convert all strings into integers beforehand
+    for t in starget_list:
+        nt = [int(s) for s in t]
+        target_list.append(nt)
+
+    proc()
+
+    output_filename = db.get_output_path(DATA_FILENAME, 'output_omp')
+    db.write_data(output_filename, target_list)
+
+if __name__ == "__main__":
+    main()

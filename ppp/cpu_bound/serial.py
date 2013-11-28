@@ -9,8 +9,6 @@ remove_indexes = []
 
 @timing
 def proc():
-    """Process the data file"""
-    global target_list
     for i, t in enumerate(target_list):
         if i in remove_indexes:
             continue
@@ -35,4 +33,5 @@ def main():
     global target_list
     target_list = db.read_data(DATA_FILENAME)
     proc()
-    db.write_data('OUTPUT_serial', target_list)
+    output_filename = db.get_output_path(DATA_FILENAME, 'output_serial')
+    db.write_data(output_filename, target_list)

@@ -15,6 +15,12 @@ def get_data_path():
     return data_path
 
 
+def get_output_path(data_filename, suffix):
+    base, ext = os.path.splitext(data_filename)
+    dash = '-'
+    return base + dash + suffix + ext
+
+
 def write_data(filename, rows):
     filename = os.path.join(get_data_path(), filename)
     with open(filename, 'w') as f:
