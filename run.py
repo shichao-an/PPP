@@ -1,15 +1,16 @@
-from ppp.cpu_bound.data import makedata
-from ppp.cpu_bound import serial
-from ppp.cpu_bound import mt
-from ppp.cpu_bound import mp
-from ppp.cpu_bound import omp
+from ppp import cpu_bound, io_bound, memory_bound, overhead  # NOQA
 
 
 def main():
-    #makedata.make()
-    #serial.main()
-    #mt.main()
-    omp.main()
+    #cpu_bound.makedata.make()
+    #cpu_bound.serial.main()
+    #cpu_bound.mt.main()
+    #cpu_bound.mp.main()
+    #cpu_bound.omp.main()
+    #overhead.serial.main()
+    overhead.mt.main()
+    overhead.mp.main()
+
 
 if __name__ == "__main__":
     main()

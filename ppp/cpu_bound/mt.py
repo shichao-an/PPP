@@ -2,10 +2,11 @@ import math
 import threading
 from ppp.utils import db
 from ppp.utils.decorators import timing
+from ppp.settings import CPU_BOUND
 from .data.settings import DATA_FILENAME
 
 
-NUM_THREADS = 8
+NUM_THREADS = CPU_BOUND.NUM_THREADS
 target_list = []
 remove_indexes = []
 

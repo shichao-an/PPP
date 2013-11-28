@@ -5,10 +5,12 @@ cimport openmp  # NOQA
 from libc.stdio cimport printf
 from ppp.utils import db
 from ppp.utils.decorators import timing
+from ppp.settings import CPU_BOUND
 from .data.settings import DATA_FILENAME
 
 
 target_list = []
+OMP_NUM_THREADS = CPU_BOUND.OMP_NUM_THREADS
 
 
 @timing
@@ -16,7 +18,8 @@ def proc():
 
     global target_list
     cdef unsigned int n, num_threads, i, j
-    num_threads = 8
+
+    num_threads = OMP_NUM_THREADS
 
     # Convert `target_list` from list into NumPy array `ntg`
     ntg = np.array(target_list, dtype=np.int32)
@@ -30,14 +33,21 @@ def proc():
     cdef int [:] remove_indexes = n_remove_indexes  # NOQA
 
     # Enable dynamic teams
-    #openmp.omp_set_dynamic(1)
+    openmp.omp_set_dynamic(1)
 
     # Disable dynamic teams (default implicitly)
-    openmp.omp_set_dynamic(0)
+    #openmp.omp_set_dynamic(0)
+    cdef openmp.omp_lock_t mylock
+
+    openmp.omp_init_lock(&mylock) # initialize
+
+    openmp.omp_set_lock(&mylock) # acquire
+    #do some work
+    openmp.omp_unset_lock(&mylock) # release
 
     for i in prange(n, nogil=True, schedule="static", num_threads=num_threads):
-        num_threads = openmp.omp_get_thread_num()
-        printf("Thread ID: %d\n", num_threads)
+        #num_threads = openmp.omp_get_thread_num()
+        #printf("Thread ID: %d\n", num_threads)
         if remove_indexes[i] == 1:
             continue
 

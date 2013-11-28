@@ -1,12 +1,12 @@
 import multiprocessing
 import math
-import os
 from ppp.utils import db
 from ppp.utils.decorators import timing
+from ppp.settings import CPU_BOUND
 from .data.settings import DATA_FILENAME
 
 
-NUM_PROCESSES = 8
+NUM_PROCESSES = CPU_BOUND.NUM_PROCESSES
 manager = multiprocessing.Manager()
 target_list = manager.list()
 remove_indexes = manager.list()
