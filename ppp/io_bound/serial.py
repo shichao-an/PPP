@@ -1,17 +1,48 @@
-import json
 import re
 import requests
 from ppp.utils import db
 from ppp.utils.decorators import timing
 from .data.settings import (WIKIPEDIA_API_URL, WIKIPEDIA_API_QUERY_PARAMS,
-                            COMMON_WORDS)
+                            COMMON_WORDS, WIKIPEDIA_API_TITLE_LIMIT)
+
+single_word_collection = []
+candidate_titles = []
 
 
 def semantic_parse(text):
+    global single_word_collection
     raw_words = text.split()
+    num_raw_words = len(raw_words)
+    single_word_collection = get_single_words(raw_words)
+    for i in range(num_raw_words):
+        start_index = i
+        end_index = num_raw_words
+        titles = word_parse(start_index, end_index, raw_words)
+        candidate_titles += titles
+
+
+def word_parse(start_index, end_index, raw_words):
+    # Collection of titles
+    collection = []
+    for j in range(start_index + 1, end_index + 1):
+        # Check single-word title
+        if j - start_index == 1:
+            word = raw_words[start_index]
+            if (word.lower() in COMMON_WORDS
+                    and word in single_word_collection):
+                continue
+        title = ' '.join(raw_words[start_index:j])
+        collection.append(title.capitalize())
+    return collection
+
+
+def get_single_words(raw_words):
+    """Get a list of cleaned single words"""
     cleaned_words = clean_words(raw_words)
-    candidates = []
-    return candidates
+    collection = [
+        word for word in cleaned_words if word.lower() not in COMMON_WORDS
+    ]
+    return collection
 
 
 def clean_words(words):
@@ -28,11 +59,36 @@ def clean_words(words):
     return cleaned_words
 
 
-def query_titles(titles):
+def query_titles(collection, single_word=False):
     """
-    Query Wikipedia API with `titles' list and return existent `ex_titles'
+    Query Wikipedia API with `collection' list and return existent `titles'
+    Limit for number of titles per query is 50.
 
     """
+    assert(len(collection)) < WIKIPEDIA_API_TITLE_LIMIT
+    params = WIKIPEDIA_API_QUERY_PARAMS
+    params['titles'] = '|'.join(collection)
+    # Enable `redirects` for single words to avoid counting meaninglessness
+    if single_word:
+        params['redirects'] = ''
+    res = requests.get(WIKIPEDIA_API_URL, params=params).json()
+    pages = res['query']['pages']
+    normalized = res['query']['normalized']
+    titles = []
+    for page_id in pages:
+        if int(page_id) > 0:
+            entry_title = pages[page_id]['title']
+            raw_title = ''
+            for p in normalized:
+                if p['to'] == entry_title:
+                    raw_title = p['from']
+                    titles.append(raw_title)
+                    break
+    return titles
+
+
+def proc():
+    pass
 
 
 def main():
@@ -43,4 +99,6 @@ def main():
         " while putting together computer models and simulations for research."
     )
     print text
-    print COMMON_WORDS
+    semantic_parse(text)
+    #print res
+    #print COMMON_WORDS
