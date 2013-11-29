@@ -21,6 +21,7 @@ def worker(target_slice):
     for row in target_slice:
         # row[0]: origin; row[1]: destination; row[2]: distance
         lock.acquire()
+        #print max_distance
         if int(row[2]) > max_distance:
             max_distance = int(row[2])
         if int(row[2]) < min_distance or min_distance == -1:

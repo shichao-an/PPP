@@ -14,6 +14,10 @@ then
         echo "Checking overhead..."
         diff <(sort "$data_path/overhead-output_serial.txt") \
              <(sort "$data_path/overhead-output_mt.txt")
+        diff <(sort "$data_path/overhead-output_serial.txt") \
+             <(sort "$data_path/overhead-output_mp.txt")
+        diff <(sort "$data_path/overhead-output_serial.txt") \
+             <(sort "$data_path/overhead-output_omp.txt")
     else
         echo "Invalid argument $1." 1>&2
         exit 1

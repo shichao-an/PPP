@@ -33,3 +33,9 @@ def read_data(filename):
     with open(filename, 'r') as f:
         reader = csv.reader(f)
         return list(reader)
+
+
+def read_lines_to_list(filename):
+    with open(filename, 'r') as f:
+        s = f.read()
+        return s.splitlines()
