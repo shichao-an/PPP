@@ -39,3 +39,14 @@ def read_lines_to_list(filename):
     with open(filename, 'r') as f:
         s = f.read()
         return s.splitlines()
+
+
+def read_to_string(filename):
+    l = read_lines_to_list(filename)
+    return ' '.join(l)
+
+
+def write_list_to_lines(filename, lines):
+    filename = os.path.join(get_data_path(), filename)
+    with open(filename, 'w') as f:
+        f.write("\n".join(lines) + "\n")
