@@ -1,7 +1,8 @@
+# Utility functions for creating collections
 import re
 import string
 from .data.settings import (WIKIPEDIA_API_TITLE_LIMIT, COMMON_WORDS,
-                            ENDING_PUNCTUATIONS)
+                            ENDING_PUNCTUATIONS, WIKIPEDIA_API_URL_LEN)
 
 
 def get_collection(sentence, single_word_collection):
@@ -87,9 +88,17 @@ def get_collection_chunks(collection, collection_chunk_size):  # common (pre)
 
 def get_collection_chunk_size(sentence):  # common (pre)
     """Calculate a most appropriate chunk size"""
-    m = 8192 / len(sentence)
+    m = WIKIPEDIA_API_URL_LEN / len(sentence)
     if m > WIKIPEDIA_API_TITLE_LIMIT:
         collection_chunk_size = WIKIPEDIA_API_TITLE_LIMIT
     else:
         collection_chunk_size = m
     return collection_chunk_size
+
+
+def get_num_chunks(collection_chunks, single_collection_chunks):
+    """
+    Get total number of chunks, which is equivalent to total number
+    of HTTP requests
+    """
+    return len(collection_chunks) + len(single_collection_chunks)

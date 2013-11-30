@@ -9,6 +9,7 @@ WIKIPEDIA_API_QUERY_PARAMS = {
     "titles": "",
 }
 WIKIPEDIA_API_TITLE_LIMIT = 50
+WIKIPEDIA_API_URL_LEN = 8192
 COMMON_WORDS = db.read_lines_to_list(os.path.join(CURRENT_PATH, "common.txt"))
 TEXT = db.read_to_string(os.path.join(CURRENT_PATH, "text.txt"))
 ENDING_PUNCTUATIONS = [";", ",", "\.", "'", "'s", "'d", "'ll", "'m"]

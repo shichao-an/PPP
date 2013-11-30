@@ -18,6 +18,11 @@ then
              <(sort "$data_path/overhead-output_mp.txt")
         diff <(sort "$data_path/overhead-output_serial.txt") \
              <(sort "$data_path/overhead-output_omp.txt")
+    elif [ "$1" = "io_bound" ]
+    then
+        echo "Checking io_bound..."
+        diff <(sort "$data_path/io_bound-output_serial.txt") \
+             <(sort "$data_path/io_bound-output_mt.txt")
     else
         echo "Invalid argument $1." 1>&2
         exit 1

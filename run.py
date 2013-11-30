@@ -11,8 +11,9 @@ def main():
     #overhead.mt.main()
     #overhead.mp.main()
     #overhead.omp.main()
-    io_bound.serial.main()
-    #io_bound.mt.main()
+    #io_bound.serial.main()
+    io_bound.mt.main()
+    #io_bound.mp.main()
 
 
 if __name__ == "__main__":
