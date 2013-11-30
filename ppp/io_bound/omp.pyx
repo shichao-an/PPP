@@ -126,4 +126,4 @@ def main():
     except:
         pass
 
-    db.write_list_to_lines("io_bound-output_mt.txt", list(candidate_titles))
+    db.write_list_to_lines("io_bound-output_omp.txt", list(candidate_titles))

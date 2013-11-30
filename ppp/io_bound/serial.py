@@ -12,7 +12,7 @@ from .collections import (get_collection, get_single_word_collection,
 collection = set([])
 single_word_collection = set([])
 collection_chunk_size = 10
-candidate_titles = []
+candidate_titles = set([])
 
 
 def query_chunk(chunk, single_word=False):
@@ -37,13 +37,13 @@ def query_chunk(chunk, single_word=False):
         if int(page_id) > 0:
             entry_title = pages[page_id]['title']
             if entry_title in chunk:
-                candidate_titles.append(entry_title)
+                candidate_titles.add(entry_title)
             else:
                 raw_title = ''
                 for p in normalized:
                     if p['to'] == entry_title:
                         raw_title = p['from']
-                        candidate_titles.append(raw_title)
+                        candidate_titles.add(raw_title)
                         break
 
 
@@ -77,4 +77,5 @@ def proc():
 def main():
     set_globals()
     proc()
-    db.write_list_to_lines("io_bound-output_serial.txt", candidate_titles)
+    db.write_list_to_lines(
+        "io_bound-output_serial.txt", list(candidate_titles))

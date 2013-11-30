@@ -23,6 +23,10 @@ then
         echo "Checking io_bound..."
         diff <(sort "$data_path/io_bound-output_serial.txt") \
              <(sort "$data_path/io_bound-output_mt.txt")
+        diff <(sort "$data_path/io_bound-output_serial.txt") \
+             <(sort "$data_path/io_bound-output_mp.txt")
+        diff <(sort "$data_path/io_bound-output_serial.txt") \
+             <(sort "$data_path/io_bound-output_omp.txt")
     else
         echo "Invalid argument $1." 1>&2
         exit 1

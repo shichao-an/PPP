@@ -1,4 +1,5 @@
 from ppp import cpu_bound, io_bound, memory_bound, overhead  # NOQA
+#from ppp import io_bound
 
 
 def main():
@@ -11,8 +12,8 @@ def main():
     #overhead.mt.main()
     #overhead.mp.main()
     #overhead.omp.main()
-    io_bound.serial.main()
-    #io_bound.mt.main()
+    #io_bound.serial.main()
+    io_bound.mt.main()
     #io_bound.mp.main()
     #io_bound.omp.main()
 
