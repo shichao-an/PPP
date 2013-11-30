@@ -60,16 +60,17 @@ def proc():
     Query all titles in `collection' and `single_word_collection'
     after dividing them into chunks.
     """
-    chunks = get_collection_chunks(collection, collection_chunk_size)
-    single_chunks = get_collection_chunks(
+    collection_chunks = get_collection_chunks(
+        collection, collection_chunk_size)
+    single_collection_chunks = get_collection_chunks(
         single_word_collection, collection_chunk_size)
 
     num_chunks = get_num_chunks(collection_chunks, single_collection_chunks)
     print 'HTTP requests: %d' % num_chunks
 
-    for chunk in chunks:
+    for chunk in collection_chunks:
         query_chunk(chunk)
-    for chunk in single_chunks:
+    for chunk in single_collection_chunks:
         query_chunk(chunk, single_word=True)
 
 

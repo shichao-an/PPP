@@ -53,11 +53,11 @@ def word_parse(start_index, end_index, raw_words, collection,
         m = re.search(pattern, title)
         if m:
             cleaned_title = m.group(1)
-            collection.add(cleaned_title)
+            collection.add(cleaned_title.strip())
         collection.add(title)
 
 
-def clean_words(words):  # common (utils)
+def clean_words(words):
     """
     Clean words by removing apostrophes, commas, periods, quotation marks, etc.
 
@@ -70,14 +70,14 @@ def clean_words(words):  # common (utils)
     return cleaned_words
 
 
-def _clean_word(raw_string):  # common (utils, put this inline in clean_words)
+def _clean_word(raw_string):
     s = re.split(r'[^a-zA-Z0-9_-]+', raw_string)
     if s:
         if s[0].strip():
             return s[0]
 
 
-def get_collection_chunks(collection, collection_chunk_size):  # common (pre)
+def get_collection_chunks(collection, collection_chunk_size):
     c = list(collection)
     chunks = [
         c[x: x + collection_chunk_size]
@@ -86,7 +86,7 @@ def get_collection_chunks(collection, collection_chunk_size):  # common (pre)
     return chunks
 
 
-def get_collection_chunk_size(sentence):  # common (pre)
+def get_collection_chunk_size(sentence):
     """Calculate a most appropriate chunk size"""
     m = WIKIPEDIA_API_URL_LEN / len(sentence)
     if m > WIKIPEDIA_API_TITLE_LIMIT:
