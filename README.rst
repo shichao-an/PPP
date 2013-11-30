@@ -26,5 +26,5 @@ Run the project::
 
 Ensure correctness::
 
-  $ ./correctness all
+  $ ./correctness.sh io_bound
 
