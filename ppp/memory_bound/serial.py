@@ -1,3 +1,6 @@
+import numpy as np
+import os
+import psutil
 from ppp.utils.decorators import timing
 from ppp.utils import db
 from .data.utils import init_matrix, zero_matrix
@@ -18,18 +21,7 @@ matrix_c = zero_matrix(MATRIX_SIZE)
 
 @timing
 def proc():
-    """
-    int row, column;
-    for(row = 0; row < MATRIX_ROWS; row++)
-        for(column = 0; column < MATRIX_COLS; column++)
-        {
-            output[row][column] = 0;  // Initialize output matrix' element to 0
-            int i;
-            for(i = 0; i < MATRIX_COLS; i++)
-                output[row][column] += input_a[row][i] * input_b[i][column];
-        }
-}
-    """
+
     for row in xrange(MATRIX_SIZE):
         for col in xrange(MATRIX_SIZE):
             for i in xrange(MATRIX_SIZE):

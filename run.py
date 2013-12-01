@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from ppp import cpu_bound, io_bound, memory_bound, overhead  # NOQA
 #from ppp import io_bound
 
@@ -16,9 +17,12 @@ def main():
     #io_bound.mt.main()
     #io_bound.mp.main()
     #io_bound.omp.main()
+    #import ppp.memory_bound.data.makedata
+    #ppp.memory_bound.data.makedata.make()
     #memory_bound.serial.main()
     #memory_bound.mt.main()
     memory_bound.mp.main()
+    #memory_bound.omp.main()
 
 
 if __name__ == "__main__":

@@ -36,7 +36,6 @@ def proc():
 
     # Disable dynamic teams (default implicitly)
     #openmp.omp_set_dynamic(0)
-
     for i in prange(n, nogil=True, schedule="static", num_threads=num_threads):
         #num_threads = openmp.omp_get_thread_num()
         #printf("Thread ID: %d\n", num_threads)

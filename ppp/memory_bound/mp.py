@@ -31,13 +31,13 @@ def worker(start, end):
 def proc():
     processes = []
     chunksize = int(math.floor(MATRIX_SIZE / float(NUM_PROCESSES)))
-    print chunksize
+    #print chunksize
     for i in range(NUM_PROCESSES):
         start = chunksize * i
         end = chunksize * (i + 1)
         if i == NUM_PROCESSES - 1:
             end = MATRIX_SIZE
-        print start, end
+        #print start, end
         p = multiprocessing.Process(
             target=worker,
             args=(start, end)
@@ -59,6 +59,8 @@ def set_globals():
 
 
 def main():
+    #import os
+    #print os.getpid()
     set_globals()
     proc()
     db.write_data('memory_bound-output_mp.txt', list(matrix_c))
