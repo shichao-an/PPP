@@ -2,12 +2,13 @@ import math
 import multiprocessing
 from ppp.utils.decorators import timing
 from ppp.utils import db
+from ppp.settings import MEMORY_BOUND
 from .data.utils import mp_init_matrix, mp_zero_matrix
 from .data.settings import (MATRIX_SIZE, MATRIX_A_DATA_FILENAME,
                             MATRIX_B_DATA_FILENAME)
 
 
-NUM_PROCESSES = 8
+NUM_PROCESSES = MEMORY_BOUND.NUM_PROCESSES
 
 matrix_a_data = []
 matrix_b_data = []

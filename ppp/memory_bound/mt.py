@@ -2,12 +2,14 @@ import math
 import threading
 from ppp.utils.decorators import timing
 from ppp.utils import db
+from ppp.settings import MEMORY_BOUND
 from .data.utils import init_matrix, zero_matrix
 from .data.settings import (MATRIX_SIZE, MATRIX_A_DATA_FILENAME,
                             MATRIX_B_DATA_FILENAME)
 
 
-NUM_THREADS = 8
+NUM_THREADS = MEMORY_BOUND.NUM_THREADS
+
 
 matrix_a_data = []
 matrix_b_data = []
