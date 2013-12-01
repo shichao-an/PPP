@@ -13,8 +13,13 @@ if [ -n "$1" ]
 then
     if [ "$1" = "cpu_bound" ]
     then
-        echo
-
+        echo "Checking cpu_bound..."
+        diff <(sort "$data_path/${cpu_bound_prefix}_serial.txt") \
+             <(sort "$data_path/${cpu_bound_prefix}_mt.txt")
+        diff <(sort "$data_path/${cpu_bound_prefix}_serial.txt") \
+             <(sort "$data_path/${cpu_bound_prefix}_mp.txt")
+        diff <(sort "$data_path/${cpu_bound_prefix}_serial.txt") \
+             <(sort "$data_path/${cpu_bound_prefix}_omp.txt")
     elif [ "$1" = "overhead" ]
     then
         echo "Checking overhead..."
@@ -37,6 +42,7 @@ then
 
     elif [ "$1" = "memory_bound" ]
     then
+        echo "Checking memory_bound..."
         diff "$data_path/${memory_bound_prefix}_serial.txt" \
              "$data_path/${memory_bound_prefix}_mt.txt"
         diff "$data_path/${memory_bound_prefix}_serial.txt" \
