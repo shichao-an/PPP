@@ -1,4 +1,5 @@
 #cython: boundscheck=False
+# cython: profile=True
 import numpy as np
 from cython.parallel import parallel, prange
 cimport openmp  # NOQA
@@ -31,12 +32,7 @@ def proc():
     n_remove_indexes = np.zeros((n,), dtype=np.int32)
     cdef int [:] remove_indexes = n_remove_indexes  # NOQA
 
-    # Enable dynamic teams
-    openmp.omp_set_dynamic(1)
-
-    # Disable dynamic teams (default implicitly)
-    #openmp.omp_set_dynamic(0)
-    for i in prange(n, nogil=True, schedule="static", num_threads=num_threads):
+    for i in prange(n, nogil=True, schedule="static", num_threads=8):
         #num_threads = openmp.omp_get_thread_num()
         #printf("Thread ID: %d\n", num_threads)
         if remove_indexes[i] == 1:
@@ -53,7 +49,7 @@ def proc():
                 tg[j][2] == tg[i][2]
 
     # Reinitialize `target_list` and append non-duplicates from `tg`
-    target_list = []
+    #target_list = []
     for i in range(n):
         if remove_indexes[i] == 0:
             target_list.append(tg[i])

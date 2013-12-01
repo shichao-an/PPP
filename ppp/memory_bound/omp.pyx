@@ -1,4 +1,5 @@
-#cython: boundscheck=False
+# cython: boundscheck=False
+# cython: profile=True
 import numpy as np
 import os
 from cython.parallel import parallel, prange
