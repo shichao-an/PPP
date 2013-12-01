@@ -9,3 +9,6 @@
 *.cpp
 *.cxx
 *.cc
+
+# Profile files
+*.prof
