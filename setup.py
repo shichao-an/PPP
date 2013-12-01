@@ -4,11 +4,15 @@ from distutils.extension import Extension
 from Cython.Build import cythonize
 import os
 
-os.environ['CC'] = 'gcc-4.2'
-os.environ['CXX'] = 'g++-apple-4.2'
 
+if not os.environ.get('CC'):
+    os.environ['CC'] = 'gcc-4.2'
+if not os.environ.get('CXX'):
+    os.environ['CXX'] = 'g++-4.2'
+
+
+# Cython extensions
 extensions = [
-
     Extension(
         name="ppp.cpu_bound.omp",
         sources=["ppp/cpu_bound/omp.pyx"],
