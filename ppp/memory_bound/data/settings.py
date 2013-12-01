@@ -1,0 +1,3 @@
+RANDOM_SIZE = 100
+MATRIX_SIZE = 200
+DATA_FILENAME = 'memory_bound.txt'

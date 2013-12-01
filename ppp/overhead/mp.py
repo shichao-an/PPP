@@ -49,7 +49,7 @@ def worker(target_slice):
 @timing
 def proc():
     processes = []
-    chunksize = int(math.ceil(len(target_list) / float(NUM_PROCESSES)))
+    chunksize = int(math.floor(len(target_list) / float(NUM_PROCESSES)))
     #print chunksize
     for i in range(NUM_PROCESSES):
         start = chunksize * i
