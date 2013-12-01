@@ -1,13 +1,18 @@
 from ppp.utils.decorators import timing
+from ppp.utils import db
 from .data.utils import init_matrix, zero_matrix
-from .data.settings import MATRIX_SIZE, RANDOM_SIZE
+from .data.settings import (MATRIX_SIZE, MATRIX_A_DATA_FILENAME,
+                            MATRIX_B_DATA_FILENAME)
 
 
-# Input matrices with random integers
-matrix_a = init_matrix(MATRIX_SIZE, RANDOM_SIZE)
-matrix_b = init_matrix(MATRIX_SIZE, RANDOM_SIZE)
+matrix_a_data = []
+matrix_b_data = []
 
-# Output matrices with zeros
+# Input matrices
+matrix_a = []
+matrix_b = []
+
+# Output matrix with zeros
 matrix_c = zero_matrix(MATRIX_SIZE)
 
 
@@ -31,10 +36,16 @@ def proc():
                 matrix_c[row][col] += matrix_a[row][i] * matrix_b[i][col]
 
 
+def set_globals():
+    global matrix_a_data, matrix_b_data
+    global matrix_a, matrix_b
+    matrix_a_data = db.read_data(MATRIX_A_DATA_FILENAME)
+    matrix_b_data = db.read_data(MATRIX_B_DATA_FILENAME)
+    matrix_a = init_matrix(MATRIX_SIZE, matrix_a_data)
+    matrix_b = init_matrix(MATRIX_SIZE, matrix_b_data)
+
+
 def main():
-    #print matrix_a
-    #print
-    #print matrix_b
+    set_globals()
     proc()
-    #print
-    #print matrix_c
+    db.write_data('memory_bound-output_serial.txt', list(matrix_c))
