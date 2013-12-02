@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import sys
 from ppp import cpu_bound, io_bound, memory_bound, overhead  # NOQA
 
@@ -33,9 +34,13 @@ def main():
         sys.stderr.write(usage)
         sys.exit(1)
 
+    print "PID: %d" % os.getpid()
     arg = sys.argv[1]
     if arg in entries:
         entries[arg]()
+    else:
+        sys.stderr.write("Invalid module `%s'.\n" % arg)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
