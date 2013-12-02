@@ -4,8 +4,7 @@ import pstats
 import pyximport
 import sys
 from run import entries
-import ppp
-
+import ppp  # NOQA
 
 
 del entries['cpu_bound.makedata']
@@ -28,6 +27,9 @@ def main():
 
         s = pstats.Stats("Profile.prof")
         s.strip_dirs().sort_stats("time").print_stats()
+    else:
+        sys.stderr.write("Invalid module `%s'.\n" % arg)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
