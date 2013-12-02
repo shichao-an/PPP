@@ -35,10 +35,10 @@ sections = {
 for section_name in sections:
     section_config = {
         'NUM_THREADS': config.getint(section_name, 'num_threads')
-        if num_threads > 0 else num_threads,
+        if num_threads == 0 else num_threads,
         'NUM_PROCESSES': config.getint(section_name, 'num_processes')
-        if num_processes > 0 else num_processes,
+        if num_processes == 0 else num_processes,
         'OMP_NUM_THREADS': config.getint(section_name, 'omp_num_threads')
-        if omp_num_threads > 0 else omp_num_threads,
+        if omp_num_threads == 0 else omp_num_threads,
     }
     vars()[sections[section_name]] = Struct(**section_config)
