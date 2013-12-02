@@ -76,7 +76,7 @@ def proc():
 
     num_chunks = get_num_chunks(collection_chunks, single_collection_chunks)
     print 'HTTP requests: %d' % num_chunks
-    print 'Chunk size: %d' % collection_chunk_size
+    #print 'Chunk size: %d' % collection_chunk_size
 
     # Put chunks into queues for the thread pool
     for chunk in collection_chunks:
