@@ -28,6 +28,7 @@ def main():
             'file_descriptors': [],
             'threads': [],
             'subprocesses': [],
+            'children': set([]),
             'sub_times': {},
         }
         m = math.pow(2, 20)
@@ -35,16 +36,24 @@ def main():
             while p.is_running():
                 stat['cpu_percent'].append(p.get_cpu_percent())
                 stat['cpu_times'].append(p.get_cpu_times())
+                #print p.get_cpu_times()
                 stat['memory'].append(float(p.get_memory_info().rss / m))
                 stat['connections'].append(len(p.get_connections()))
                 stat['file_descriptors'].append(p.get_num_fds())
                 stat['threads'].append(p.get_num_threads())
                 children = p.get_children()
+                #print children
                 stat['subprocesses'].append(len(children))
                 for child in children:
+                    stat['children'].add(child)
                     if child.pid in stat['sub_times']:
-                        cpu_times = child.get_cpu_times()
-                        stat['sub_times'][child.pid].append(cpu_times)
+                        try:
+                            cpu_times = child.get_cpu_times()
+                            stat['sub_times'][child.pid].append(cpu_times)
+                        except:
+                            # Catch AccessDenied exception on already
+                            # joined subprocesses
+                            continue
                     else:
                         stat['sub_times'][child.pid] = []
                 time.sleep(0.05)
@@ -79,9 +88,10 @@ def main():
             sub_user_time = 0.0
             sub_sys_time = 0.0
             for p in stat['sub_times']:
-                sub_user_time += stat['sub_times'][p][-1][0]
-                sub_sys_time += stat['sub_times'][p][-1][1]
-            print 'Subprocesses times - User: %.4f. System %.4f' % \
+                if stat['sub_times'][p]:
+                    sub_user_time += stat['sub_times'][p][-1][0]
+                    sub_sys_time += stat['sub_times'][p][-1][1]
+            print 'Subprocesses Times - User: %.4f, System: %.4f' % \
                 (sub_user_time, sub_sys_time)
 
     else:
