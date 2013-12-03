@@ -35,13 +35,16 @@ def proc():
     cdef long [:, :] c_matrix_a = matrix_a  # NOQA
     cdef long [:, :] c_matrix_b = matrix_b  # NOQA
     cdef long [:, :] c_matrix_c = matrix_c  # NOQA
+
+    # Dynamically typed alternative
     #c_matrix_a = matrix_a
     #c_matrix_b = matrix_b
     #c_matrix_c = matrix_c
 
+    # Dynamically typed alternative
+    #for row in xrange(matrix_size):
     for row in prange(matrix_size, nogil=True, schedule="static",
                       num_threads=num_threads):
-        #with gil:
         for col in xrange(matrix_size):
             for i in xrange(matrix_size):
                 c_matrix_c[row][col] += c_matrix_a[row][i] * c_matrix_b[i][col]

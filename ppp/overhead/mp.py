@@ -14,11 +14,11 @@ target_list = manager.list(_target_list)
 points = manager.dict()
 distances = manager.dict()
 lock = manager.Lock()
-lock = multiprocessing.Lock()  # Better alternative
+#lock = multiprocessing.Lock()  # Better alternative
 max_distance = manager.Value('i', -1)
-max_distance = multiprocessing.Value('i', -1)  # Better alternative
+#max_distance = multiprocessing.Value('i', -1)  # Better alternative
 min_distance = manager.Value('i', -1)
-min_distance = multiprocessing.Value('i', -1)  # Better alternative
+#min_distance = multiprocessing.Value('i', -1)  # Better alternative
 
 
 def worker(target_slice):

@@ -2,11 +2,13 @@
 
 usage="./benchmark.sh cpu_bound|io_bound|memory_bound|overhead|auto"
 #programs=("mt" "mp" "omp")
-programs=("omp")
+programs=("mp")
 #args=("cpu_bound" "io_bound" "memory_bound" "overhead")
-args=("memory_bound")
+args=("overhead")
 num_threads=(1 2 4 8 16 32 64 128)
 sed="/usr/local/bin/gsed"
+sleep_interval=1
+
 
 if [ "$#" -ne 1 ]
 then
@@ -26,13 +28,13 @@ then
             #echo "    ${arg}.serial"
             #./run.py "${arg}.serial"
             #echo
-            #sleep 5
+            #sleep "$sleep_interval"
             for program in "${programs[@]}"
             do
                 echo "    $arg.$program (t/p: $num_thread)"
                 ./run.py "${arg}.$program"
                 echo
-                sleep 5
+                sleep "$sleep_interval"
             done
         done
     done

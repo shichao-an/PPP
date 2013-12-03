@@ -60,11 +60,9 @@ def proc():
     # Define memoryview `tmp` on NumPy array `ntmp`
     cdef int [:] tmp = ntmp  # NOQA
 
-    q = Queue()
 
     for i in prange(n, nogil=True, schedule="static", num_threads=num_threads):
         openmp.omp_set_lock(&lock)
-        #printf("%d\n", tmp[0])
         if tg[i][2] > tmp[0]:
             tmp[0] = tg[i][2]
         if tg[i][2] < tmp[1] or tmp[1] == -1:
@@ -84,8 +82,7 @@ def proc():
             c_points[tg[i][1]] = tg[i][0]
             c_distances[tg[i][1]] = tg[i][2]
         openmp.omp_unset_lock(&lock)
-        #with gil:
-            #q.put(1)
+
 
     # Assign global values
     #max_distance = c_max_distance
