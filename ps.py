@@ -28,6 +28,7 @@ def main():
             'file_descriptors': [],
             'threads': [],
             'subprocesses': [],
+            'sub_times': {},
         }
         m = math.pow(2, 20)
         try:
@@ -38,7 +39,14 @@ def main():
                 stat['connections'].append(len(p.get_connections()))
                 stat['file_descriptors'].append(p.get_num_fds())
                 stat['threads'].append(p.get_num_threads())
-                stat['subprocesses'].append(len(p.get_children()))
+                children = p.get_children()
+                stat['subprocesses'].append(len(children))
+                for child in children:
+                    if child.pid in stat['sub_times']:
+                        cpu_times = child.get_cpu_times()
+                        stat['sub_times'][child.pid].append(cpu_times)
+                    else:
+                        stat['sub_times'][child.pid] = []
                 time.sleep(0.05)
         except:
             stdout, stderr = popen.communicate()
@@ -68,6 +76,13 @@ def main():
             print 'Subprocesses - Max: %d, Min: %d, Avg: %d' % \
                 (max(stat['subprocesses']), min(stat['subprocesses']),
                  sum(stat['subprocesses']) / len(stat['subprocesses']))
+            sub_user_time = 0.0
+            sub_sys_time = 0.0
+            for p in stat['sub_times']:
+                sub_user_time += stat['sub_times'][p][-1][0]
+                sub_sys_time += stat['sub_times'][p][-1][1]
+            print 'Subprocesses times - User: %.4f. System %.4f' % \
+                (sub_user_time, sub_sys_time)
 
     else:
         sys.stderr.write("Invalid module `%s'.\n" % arg)
