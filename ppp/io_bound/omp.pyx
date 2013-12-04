@@ -2,7 +2,6 @@ import json
 import Queue
 import urllib
 import urllib3
-import threading
 from cython.parallel import parallel, prange
 cimport openmp  # NOQA
 from ppp.utils import db
@@ -116,7 +115,6 @@ def set_globals():
     collection_chunk_size = get_collection_chunk_size(TEXT)
 
 
-@timing
 def main():
     set_globals()
     proc()
