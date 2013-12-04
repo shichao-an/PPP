@@ -16,6 +16,7 @@ def main():
 
     arg = sys.argv[1]
     if arg in entries:
+        t1 = time.time()
         popen = subprocess.Popen(['./run.py', arg], stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE)
 
@@ -56,9 +57,11 @@ def main():
                             continue
                     else:
                         stat['sub_times'][child.pid] = []
-                time.sleep(0.05)
+                #time.sleep(0.05)
         except:
             stdout, stderr = popen.communicate()
+            t2 = time.time()
+            print 'Real Time:', t2 - t1
             if stderr:
                 sys.stderr.write(stderr)
                 sys.exit(1)
