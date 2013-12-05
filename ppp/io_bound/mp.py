@@ -107,7 +107,6 @@ def proc():
         p.start()
 
     for p in processes:
-        print p.pid
         p.join()
 
     # Process `single_collection_queue' in the main process after joining

@@ -96,7 +96,6 @@ def proc():
         t.start()
 
     for t in threads:
-        print 'tj'
         t.join()
 
     # Process `single_collection_queue' in the main thread after joining
