@@ -64,6 +64,7 @@ def proc():
         p.start()
 
     for p in processes:
+        #print p.pid
         p.join()
 
 

@@ -32,10 +32,11 @@ def proc():
     n_remove_indexes = np.zeros((n,), dtype=np.int32)
     cdef int [:] remove_indexes = n_remove_indexes  # NOQA
 
-    #cdef double start, end
+
     for i in prange(n, nogil=True, schedule="static", num_threads=num_threads):
-        #num_threads = openmp.omp_get_num_threads()
-        #printf("wtime: %d\n", openmp.omp_get_wtime())
+
+        # GIL alternative
+        # with gil:
         if remove_indexes[i] == 1:
             continue
 
@@ -48,7 +49,7 @@ def proc():
             # Fix reverse distance
             elif tg[i][0] == tg[j][1] and tg[i][1] == tg[j][0]:
                 tg[j][2] == tg[i][2]
-        #printf("wtime: %d\n", num_threads)
+
 
     # Reinitialize `target_list` and append non-duplicates from `tg`
     target_list = []

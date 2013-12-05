@@ -7,10 +7,14 @@ Description
 
 This project studies how to utilize parallelism in Python applications by comparing three different parallel programming methods. CPython's multithreading interface ``threading`` and process-based "threading" interface ``multiprocessing`` are discussed in terms of employing built-in functionalities, and OpenMP through ``cython.parallel`` in Cython are introduced in terms of thread-based native parallelism.
 
-CPU-bound and I/O-bound programs are parallelized using these methods to demonstrate features and to compare performances. As an essential supplement, parallelized matrix programs are evaluated with ``multiprocessing`` and OpenMP approaches to study the memory aspect.
+CPU-bound and I/O-bound programs are parallelized using these methods to demonstrate features and to compare performances. As essential supplements, a derivative CPU-bound application and a matrix multiplication program are parallelized to study the overhead and memory aspect.
 
 Usage
 -----
+Install requirements::
+
+  $ pip install -r requirements.txt
+
 
 Build Cython extensions::
 
@@ -23,14 +27,30 @@ Make data for dependent programs::
   $ python run.py memory_bound.makedata
 
 
-Run the project::
+Run the project by specifying package and module::
 
-  $ python run.py cpu_bound.serial
+  $ python run.py <package>.<module>
+
+
+Automatic benchmarking::
+
+  $ ./benchmark.sh auto
 
 
 Ensure output correctness::
 
   $ ./correctness.sh io_bound
+
+
+Profile a program::
+
+  $ python profile.py <package>.<module>
+
+
+Show process status of a program::
+
+  $ python ps.py <package>.<module>
+
 
 Command-line arguments
 ----------------------

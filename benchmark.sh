@@ -1,10 +1,8 @@
 #!/bin/bash
 
 usage="./benchmark.sh cpu_bound|io_bound|memory_bound|overhead|auto"
-#programs=("mt" "mp" "omp")
-programs=("mp")
-#args=("cpu_bound" "io_bound" "memory_bound" "overhead")
-args=("overhead")
+programs=("mt" "mp" "omp")
+args=("cpu_bound" "io_bound" "memory_bound" "overhead")
 num_threads=(1 2 4 8 16 32 64 128)
 sed="/usr/local/bin/gsed"
 sleep_interval=1
@@ -25,14 +23,14 @@ then
         do
             echo "  Setting number of threads/processes to $num_thread..."
             $sed -i "s/ = \([0-9]\{1,\}\)  ;global/ = $num_thread  ;global/g" ppp.cfg
-            #echo "    ${arg}.serial"
-            #./run.py "${arg}.serial"
-            #echo
-            #sleep "$sleep_interval"
+            echo "    ${arg}.serial"
+            ./run.py "${arg}.serial"
+            echo
+            sleep "$sleep_interval"
             for program in "${programs[@]}"
             do
                 echo "    $arg.$program (t/p: $num_thread)"
-                ./run.py "${arg}.$program"
+                /run.py "${arg}.$program"
                 echo
                 sleep "$sleep_interval"
             done

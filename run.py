@@ -27,7 +27,6 @@ entries = {
 
 
 def main():
-
     usage = "python run.py <package>.<module>\n"
 
     if len(sys.argv) != 2:

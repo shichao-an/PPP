@@ -107,6 +107,7 @@ def proc():
         p.start()
 
     for p in processes:
+        print p.pid
         p.join()
 
     # Process `single_collection_queue' in the main process after joining
@@ -121,7 +122,6 @@ def set_globals():
     collection_chunk_size = get_collection_chunk_size(TEXT)
 
 
-@timing
 def main():
     set_globals()
     proc()
