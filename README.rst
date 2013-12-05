@@ -27,6 +27,14 @@ Make data for dependent programs::
   $ python run.py memory_bound.makedata
 
 
+Specify number of thread/process in ppp.cfg (when global value is greater than zero, it overrides all other sections)::
+
+  [cpu-bound]
+  num_threads = 8
+  num_processes = 8
+  omp_num_threads = 8
+
+
 Run the project by specifying package and module::
 
   $ python run.py <package>.<module>
