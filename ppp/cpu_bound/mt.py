@@ -21,7 +21,7 @@ def worker(target_slice, start):
                 remove_indexes.append(j)
             # Fix reverse distance
             elif t[0] == target_list[j][1] and t[1] == target_list[j][0]:
-                target_list[j][2] == t[2]
+                target_list[j][2] = t[2]
 
 
 @timing

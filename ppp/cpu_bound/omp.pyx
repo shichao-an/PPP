@@ -48,7 +48,7 @@ def proc():
 
             # Fix reverse distance
             elif tg[i][0] == tg[j][1] and tg[i][1] == tg[j][0]:
-                tg[j][2] == tg[i][2]
+                tg[j][2] = tg[i][2]
 
 
     # Reinitialize `target_list` and append non-duplicates from `tg`
