@@ -2,6 +2,8 @@ Python and Parallel Programming
 ===============================
 Final project for Multicore Processors: Architecture & Programming, Fall 2013 (CSCI-GA.3033-010)
 
+The sourcecode for the report of this project is `here <https://github.com/shichao-an/PPP-report>`_.
+
 Description
 -----------
 

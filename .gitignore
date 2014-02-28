@@ -20,3 +20,6 @@ cachegrind.out.*
 # Other output files
 *.out
 *.log
+
+# vim
+*.swp
